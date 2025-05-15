@@ -1,0 +1,159 @@
+/* Style général du Dashboard */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif; /* Police moderne */
+}
+
+h2, h3 {
+    color: #2d3e50; /* Gris foncé élégant */
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.stats-summary {
+    margin-bottom: 30px;
+    background: #f4f6f9; /* Gris très clair avec une touche de bleu */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stats-summary p {
+    margin: 15px 0;
+    font-size: 1.1rem;
+    color: #666; /* Gris moyen */
+}
+
+.date-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.date-list li {
+    margin: 15px 0;
+}
+
+.btn-date {
+    background-color: #6C8EAD; /* Bleu doux */
+    color: white;
+    padding: 12px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-date:hover {
+    background-color: #5b7f99; /* Bleu légèrement plus foncé */
+    transform: scale(1.05);
+}
+
+/* Style du tableau */
+.styled-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.styled-table th, .styled-table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.styled-table th {
+    background-color: #f1f1f1; /* Gris clair */
+    font-weight: 700;
+    color: #3e4c59; /* Gris foncé */
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #fafafa; /* Gris ultra clair */
+}
+
+.styled-table tr:hover {
+    background-color: #f0f4f8; /* Gris très clair, effet de survol élégant */
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+}
+
+.styled-table td {
+    color: #555; /* Gris doux pour le texte */
+    font-size: 1rem;
+}
+
+.styled-table .btn {
+    padding: 8px 14px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    background-color: #6C8EAD; /* Bleu doux */
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.styled-table .btn:hover {
+    background-color: #5b7f99; /* Bleu légèrement plus foncé */
+    transform: translateY(-2px); /* Effet de montée */
+}
+
+/* Style de la barre des totaux */
+.stats-footer {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f7fbfc; /* Gris clair et apaisant */
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2d3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stats-footer span {
+    color: #3498db; /* Accent bleu clair */
+}
+
+.stats-footer .total {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #6C8EAD; /* Accent bleu doux */
+}
+
+/* Animation de transition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.container {
+    animation: fadeIn 1s ease-out;
+}
+
+
+body {
+    background-image: url("/static/images/fond.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

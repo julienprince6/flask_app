@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EasyFature{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{url_for('static',filename='jogo.png')}}">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f8;
+            color: #2c3e50;
+        }
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #1e1e2f;
+            position: fixed;
+            padding-top: 30px;
+            color: #fff;
+        }
+        .sidebar h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .sidebar a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            padding: 10px 20px;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: #2c2c40;
+            color: #fff;
+        }
+        .main {
+            margin-left: 220px;
+            padding: 30px;
+        }
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #4b6cb7;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #3a54a0;
+        }
+        select, input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 200px;
+        }
+        ul.stats {
+            list-style: none;
+            padding-left: 0;
+        }
+        ul.stats li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>EasyFacture</h1>
+        <a href="/">🏠 Accueil</a>
+        <a href="/factures">📄 Factures</a>
+        <a href="/clients">👤 Clients</a>
+        <a href="/produits">📦 Produits</a>
+
+    </div>
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

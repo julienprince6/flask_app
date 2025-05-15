@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #2c3e50;">Modifier un Produit</h2>
+
+<form method="POST">
+    <label>Nom :</label><br>
+    <input type="text" name="nom" value="{{ produit.nom }}"><br><br>
+
+    <label>Prix :</label><br>
+    <input type="number" step="0.01" name="prix" value="{{ produit.prix }}"><br><br>
+
+    <label>Description :</label><br>
+    <textarea name="description">{{ produit.description }}</textarea><br><br>
+
+    <button type="submit" class="btn" style="background: #3498db; color: white; padding: 8px 12px; border-radius: 5px;">💾 Enregistrer</button>
+</form>
+{% endblock %}

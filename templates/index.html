@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="dashboard">
+    <h2>Tableau de bord</h2>
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Produits</h3>
+            <p>{{ produits_count }}</p>
+            <a href="{{ url_for('liste_produits') }}" class="btn">Voir tous</a>
+        </div>
+        <div class="stat-card">
+            <h3>Clients</h3>
+            <p>{{ clients_count }}</p>
+            <a href="{{ url_for('liste_clients') }}" class="btn">Voir tous</a>
+        </div>
+        <div class="stat-card">
+            <h3>Factures</h3>
+            <p>{{ factures_count }}</p>
+            <a href="{{ url_for('liste_factures') }}" class="btn">Voir tous</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

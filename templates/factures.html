@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #34495e;">📄 Gestion des Factures</h2>
+
+<a href="{{ url_for('creer_facture') }}" class="btn" style="background: #27ae60; color: white; padding: 8px 12px; border-radius: 5px;">
+    ➕ Créer une facture
+</a>
+
+<!-- Champs de recherche -->
+<div style="margin-top: 20px; margin-bottom: 10px;">
+    <input type="text" id="facture_id" placeholder="🔍 ID Facture" 
+           style="padding: 8px; width: 180px; border-radius: 5px; border: 1px solid #ccc; margin-right: 10px;">
+    <input type="text" id="client_nom_prenom" placeholder="🔍 Nom ou prénom client" 
+           style="padding: 8px; width: 220px; border-radius: 5px; border: 1px solid #ccc;">
+</div>
+
+<!-- Tableau des factures -->
+<div id="factures-container">
+    {% include "partials/_factures_table.html" %}
+</div>
+
+<!-- Script AJAX -->
+<script>
+    const idInput = document.getElementById('facture_id');
+    const nomPrenomInput = document.getElementById('client_nom_prenom');
+
+    function rechercherFactures() {
+        const id = idInput.value.trim();
+        const nomPrenom = nomPrenomInput.value.trim();
+
+        const params = new URLSearchParams();
+        if (id) params.append("id", id);
+        if (nomPrenom) params.append("nom_prenom", nomPrenom);
+
+        fetch(`/recherche_facture?${params.toString()}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('factures-container').innerHTML = html;
+            });
+    }
+
+    idInput.addEventListener('input', rechercherFactures);
+    nomPrenomInput.addEventListener('input', rechercherFactures);
+</script>
+
+{% endblock %}

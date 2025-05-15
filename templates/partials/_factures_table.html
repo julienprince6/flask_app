@@ -1,0 +1,31 @@
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Segoe UI', sans-serif; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 12px;">ID</th>
+            <th style="padding: 12px;">Client</th>
+            <th style="padding: 12px;">Date</th>
+            <th style="padding: 12px;">Total HT</th>
+            <th style="padding: 12px;">Total TTC</th>
+            <th style="padding: 12px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in factures %}
+        {% set facture = item.facture %}
+        {% set total_ht = item.total_ht %}
+        {% set total_ttc = item.total_ttc %}
+        <tr style="border-bottom: 1px solid #ddd; transition: background 0.2s;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='white'">
+            <td style="padding: 12px;">{{ facture.id }}</td>
+            <td style="padding: 12px;">{{ facture.client.nom if facture.client else 'Client supprimé' }}</td>
+            <td style="padding: 12px;">{{ facture.date.strftime('%Y-%m-%d') }}</td>
+            <td style="padding: 12px;">{{ "%.2f"|format(total_ht) }} €</td>
+            <td style="padding: 12px;">{{ "%.2f"|format(total_ttc) }} €</td>
+            <td style="padding: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <a href="{{ url_for('voir_facture', id=facture.id) }}" style="background: #3498db; color: white; padding: 6px 10px; border-radius: 4px; text-decoration: none;">👁️ Voir</a>
+                <a href="{{ url_for('modifier_facture', id=facture.id) }}" style="background: #f39c12; color: white; padding: 6px 10px; border-radius: 4px; text-decoration: none;">✏️ Modifier</a>
+                <a href="{{ url_for('supprimer_facture', id=facture.id) }}" style="background: #e74c3c; color: white; padding: 6px 10px; border-radius: 4px; text-decoration: none;" onclick="return confirm('Supprimer cette facture ?')">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

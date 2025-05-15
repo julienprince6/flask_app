@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #2c3e50;">👤 Liste des Clients</h2>
+
+<!-- Champ de recherche pour filtrer les clients -->
+<input type="text" id="searchClientInput" placeholder="🔍 Rechercher un client..." 
+       style="padding: 6px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 15px; width: 100%; max-width: 400px;">
+
+<div id="clients-container">
+    {% include 'partials/_clients_table.html' %}
+</div>
+
+<script>
+document.getElementById('searchClientInput').addEventListener('input', function() {
+    const query = this.value.trim();
+    fetch(`/recherche_client?q=${query}`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('clients-container').innerHTML = html;
+        });
+});
+</script>
+
+{% endblock %}

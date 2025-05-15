@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Facture #{{ facture.id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='facture.css') }}">
+    <a href="{{ url_for('telecharger_facture', id=facture.id) }}" class="btn">Télécharger en PDF</a>
+</head>
+<body>
+    <div class="facture-container">
+        <div class="header">
+            <h1>Facture</h1>
+            <p><strong>Numéro :</strong> {{ facture.id }}</p>
+            <p><strong>Date :</strong> {{ facture.date.strftime('%d/%m/%Y') }}</p>
+        </div>
+
+        <div class="client-info">
+            <h2>Client</h2>
+            <p><strong>Nom :</strong> {{ facture.client.nom }} {{ facture.client.prenom }}</p>
+            <p><strong>Email :</strong> {{ facture.client.email }}</p>
+        </div>
+
+        <div class="facture-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Total HT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ligne in facture.lignes %}
+                    <tr>
+                        <td>{{ ligne.produit.nom }}</td>
+                        <td>{{ ligne.quantite }}</td>
+                        <td>{{ "%.2f"|format(ligne.produit.prix) }} €</td>
+                        <td>{{ "%.2f"|format(ligne.produit.prix * ligne.quantite) }} €</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="total">
+
+
+            <p><strong>TVA ({{ taux_tva * 100 }}%) :</strong> {{ "%.2f"|format(total_ht * taux_tva) }} €</p>
+            <h3>Total HT :{{ "%.2f"|format(total_ht) }} €</h3>
+            <h3>Total TTC : {{ "%.2f"|format(total_ttc) }} €</h3>
+        </div>
+    </div>
+</body>
+</html>

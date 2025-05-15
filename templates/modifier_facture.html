@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #2c3e50;">📝 Modifier la Facture #{{ facture.id }}</h2>
+
+<form method="post" id="factureForm">
+    <table id="lignesTable" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        <thead style="background-color: #ecf0f1;">
+            <tr>
+                <th style="padding: 8px;">Produit</th>
+                <th style="padding: 8px;">Quantité</th>
+                <th style="padding: 8px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in facture.lignes %}
+            <tr>
+                <td>
+                    <select name="produit_id" required style="width: 100%; padding: 6px;">
+                        {% for produit in produits %}
+                        <option value="{{ produit.id }}" {% if produit.id == ligne.produit_id %}selected{% endif %}>
+                            {{ produit.nom }} - {{ produit.prix }}€
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="quantite" value="{{ ligne.quantite }}" min="1" required style="width: 100%; padding: 6px;">
+                </td>
+                <td style="text-align: center;">
+                    <button type="button" class="remove-btn" style="background: #e74c3c; color: white; border: none; padding: 5px 10px;">🗑</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="button" id="addRowBtn" style="background-color: #2980b9; color: white; padding: 8px 16px; border: none; border-radius: 5px; margin-bottom: 10px;">
+        ➕ Ajouter une ligne
+    </button><br>
+
+    <button type="submit" style="background-color: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+        💾 Enregistrer les modifications
+    </button>
+</form>
+
+<script>
+document.getElementById('addRowBtn').addEventListener('click', function () {
+    const table = document.getElementById('lignesTable').querySelector('tbody');
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>
+            <select name="produit_id" required style="width: 100%; padding: 6px;">
+                {% for produit in produits %}
+                <option value="{{ produit.id }}">{{ produit.nom }} - {{ produit.prix }}€</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <input type="number" name="quantite" value="1" min="1" required style="width: 100%; padding: 6px;">
+        </td>
+        <td style="text-align: center;">
+            <button type="button" class="remove-btn" style="background: #e74c3c; color: white; border: none; padding: 5px 10px;">🗑</button>
+        </td>
+    `;
+
+    table.appendChild(row);
+});
+
+// Gestion des suppressions
+document.addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('remove-btn')) {
+        e.target.closest('tr').remove();
+    }
+});
+</script>
+{% endblock %}

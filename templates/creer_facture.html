@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #2c3e50; font-family: 'Segoe UI', sans-serif;">🧾 Créer une facture</h2>
+
+<form method="POST" style="font-family: 'Segoe UI', sans-serif;">
+    <!-- Informations du client -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" id="nom" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div>
+            <label for="prenom">Prénom</label>
+            <input type="text" name="prenom" id="prenom" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div>
+            <label for="sexe">Sexe</label>
+            <select name="sexe" id="sexe" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">-- Sélectionner un sexe --</option>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+                <option value="Autre">Autre</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="adresse">Adresse</label>
+            <input type="text" name="adresse" id="adresse" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div>
+            <label for="email">E-mail</label>
+            <input type="email" name="email" id="email" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div>
+            <label for="telephone">Téléphone</label>
+            <input type="tel" name="telephone" id="telephone" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+
+        <div style="grid-column: span 2;">
+            <label for="tva">TVA</label>
+            <input type="text" name="tva" id="tva" value="0.1925" style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+    </div>
+
+    <button type="button" onclick="afficherProduits()" style="margin-top: 20px; background: #3498db; color: white; padding: 10px 15px; border-radius: 5px; border: none;">
+        ✅ Enregistrer les informations du client
+    </button>
+
+    <!-- Section Produits -->
+    <div id="facture-section" style="display: none; margin-top: 30px;">
+        <h3 style="color: #2c3e50;">🛒 Produits</h3>
+        <table id="produits-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #34495e; color: white;">
+                    <th style="padding: 10px;">Produit</th>
+                    <th style="padding: 10px;">Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select name="produit_id_1" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">-- Sélectionner un produit --</option>
+                            {% for produit in produits %}
+                                <option value="{{ produit.id }}">{{ produit.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="quantite_1" min="1" value="1" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="button" onclick="ajouterLigne()" style="margin-top: 10px; background: #2ecc71; color: white; padding: 8px 12px; border-radius: 5px; border: none;">
+            ➕ Ajouter une ligne
+        </button>
+
+        <button type="submit" style="margin-top: 10px; background: #1abc9c; color: white; padding: 10px 15px; border-radius: 5px; border: none;">
+            💾 Créer la facture
+        </button>
+    </div>
+
+    <!-- Messages flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes" style="margin-top: 20px;">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" style="padding: 10px; background: #f9f9f9; border-left: 5px solid #ccc;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+</form>
+
+<script>
+    let compteurLignes = 2;
+
+    function ajouterLigne() {
+        const tableBody = document.querySelector('#produits-table tbody');
+        const ligne = document.createElement('tr');
+
+        ligne.innerHTML = `
+            <td>
+                <select name="produit_id_${compteurLignes}" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    <option value="">-- Sélectionner un produit --</option>
+                    {% for produit in produits %}
+                        <option value="{{ produit.id }}">{{ produit.nom }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td>
+                <input type="number" name="quantite_${compteurLignes}" min="1" value="1" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+            </td>
+        `;
+        tableBody.appendChild(ligne);
+        compteurLignes++;
+    }
+
+    function afficherProduits() {
+        document.getElementById('facture-section').style.display = 'block';
+        document.getElementById('facture-section').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+{% endblock %}

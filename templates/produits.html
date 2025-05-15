@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color: #2c3e50; font-family: 'Segoe UI', sans-serif;">📦 Gestion des Produits</h2>
+
+<a href="{{ url_for('ajouter_produits') }}" style="background: #27ae60; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; display: inline-block; margin-bottom: 15px;">
+    ➕ Ajouter un produit
+</a>
+
+<input type="text" id="searchInput" placeholder="🔍 Rechercher un produit (nom ou ID)..."
+       style="padding: 10px; width: 100%; max-width: 400px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px; font-size: 14px; font-family: 'Segoe UI', sans-serif;">
+
+<table id="produitsTable" style="width: 100%; border-collapse: collapse; font-family: 'Segoe UI', sans-serif; font-size: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 12px;">ID</th>
+            <th style="padding: 12px;">Nom</th>
+            <th style="padding: 12px;">Prix</th>
+            <th style="padding: 12px;">Description</th>
+            <th style="padding: 12px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produit in produits %}
+        <tr style="border-bottom: 1px solid #ddd;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='white'">
+            <td style="padding: 12px;">{{ produit.id }}</td>
+            <td style="padding: 12px;">{{ produit.nom }}</td>
+            <td style="padding: 12px;">{{ "%.2f"|format(produit.prix) }} €</td>
+            <td style="padding: 12px;">{{ produit.description }}</td>
+            <td style="padding: 12px; display: flex; gap: 6px; flex-wrap: wrap;">
+                <a href="{{ url_for('modifier_produit', id=produit.id) }}" style="background: #f39c12; color: white; padding: 6px 10px; border-radius: 4px; text-decoration: none;">✏️ Modifier</a>
+                <a href="{{ url_for('supprimer_produit', id=produit.id) }}" style="background: #e74c3c; color: white; padding: 6px 10px; border-radius: 4px; text-decoration: none;" onclick="return confirm('Supprimer ce produit ?')">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#produitsTable tbody tr');
+
+        rows.forEach(row => {
+            const id = row.cells[0].innerText.toLowerCase();
+            const nom = row.cells[1].innerText.toLowerCase();
+
+            if (id.includes(filter) || nom.includes(filter)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+
+

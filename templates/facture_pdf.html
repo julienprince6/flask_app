@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture - GROUPE n1 entreprise</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: 'Arial', sans-serif;
+            font-size: 12px; /* Réduction de la taille de la police */
+            margin: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* En-tête */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Informations client */
+        .client-info {
+            margin-bottom: 15px;
+            padding: 8px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-info p {
+            margin: 3px 0;
+            font-size: 12px;
+        }
+
+        .client-info strong {
+            color: #333;
+        }
+
+        /* Tableau */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            font-size: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            color: #333;
+            font-weight: normal;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .total {
+            font-weight: bold;
+            background-color: #f8f8f8;
+            border-top: 2px solid #ddd;
+        }
+
+        .total td {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Signature */
+        .signature {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .signature-box {
+            width: 220px;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+            margin-left: auto;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .signature-label {
+            font-style: italic;
+            color: #777;
+            margin-top: 8px;
+        }
+
+        /* Design responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .client-info, .signature {
+                margin: 10px;
+            }
+
+            table, .total {
+                font-size: 11px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>GROUPE n1 entreprise</h1>
+        <p>Facture n° {{ facture.id }} - {{ facture.date.strftime("%d/%m/%Y") }}</p>
+    </div>
+
+    <div class="client-info">
+        <p><strong>Nom :</strong> {{ facture.client.nom }} {{ facture.client.prenom }}</p>
+        <p><strong>Adresse :</strong> {{ facture.client.adresse }}</p>
+        <p><strong>Email :</strong> {{ facture.client.email }}</p>
+        <p><strong>Téléphone :</strong> {{ facture.client.telephone }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in facture.lignes %}
+            <tr>
+                <td>{{ ligne.produit.nom }}</td>
+                <td>{{ "%.2f"|format(ligne.produit.prix) }} €</td>
+                <td>{{ ligne.quantite }}</td>
+                <td>{{ "%.2f"|format(ligne.produit.prix * ligne.quantite) }} €</td>
+            </tr>
+            {% endfor %}
+            <tr class="total">
+                <td colspan="3">Total HT</td>
+                <td>{{ "%.2f"|format(total_ht) }} €</td>
+            </tr>
+            <tr class="total">
+                <td colspan="3">TVA ({{ taux_tva * 100 }}%)</td>
+                <td>{{ "%.2f"|format(total_ht * taux_tva) }} €</td>
+            </tr>
+            <tr class="total">
+                <td colspan="3">Total TTC</td>
+                <td>{{ "%.2f"|format(total_ttc) }} €</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="signature">
+        <div class="signature-box">
+            Signature du client
+        </div>
+        <div class="signature-label">Fait à ___________________, le __/__/____</div>
+    </div>
+
+</body>
+</html>
+
